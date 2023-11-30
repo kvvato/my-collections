@@ -4,11 +4,11 @@ import java.util.Comparator;
 public class MyArrayList<E> implements MyList<E> {
     private static final double GROW_RATE = 1.5;
     private static final int INITIAL_CAPACITY = 5;
-    private E[] array;
+    private Object[] array;
     private int size = 0;
 
     public MyArrayList() {
-        array = (E[]) new Object[INITIAL_CAPACITY];
+        array = new Object[INITIAL_CAPACITY];
     }
 
     /**
@@ -47,9 +47,7 @@ public class MyArrayList<E> implements MyList<E> {
             grow();
         }
 
-        for (int i = size - 1; i >= index; i--) {
-            array[i + 1] = array[i];
-        }
+        System.arraycopy(array, index, array, index + 1, size - index);
         array[index] = element;
         size++;
     }
@@ -79,10 +77,8 @@ public class MyArrayList<E> implements MyList<E> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
-        E element = array[index];
-        for (int i = index + 1; i < size; i++) {
-            array[i - 1] = array[i];
-        }
+        E element = (E) array[index];
+        System.arraycopy(array, index + 1, array, index, size - index - 1);
         array[size - 1] = null;
         size--;
         return element;

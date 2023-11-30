@@ -1,13 +1,13 @@
 import java.util.Comparator;
 
 public class MyLinkedList<E> implements MyList<E> {
-    private Node head;
-    private Node tail;
+    private Node<E> head;
+    private Node<E> tail;
     private int size;
 
-    private class Node {
-        Node previous;
-        Node next;
+    private static class Node<E> {
+        private Node<E> previous;
+        private Node<E> next;
         E value;
 
         Node(E value) {
@@ -48,7 +48,7 @@ public class MyLinkedList<E> implements MyList<E> {
             throw new IndexOutOfBoundsException();
         }
 
-        Node newNode = new Node(element);
+        Node<E> newNode = new Node<>(element);
         if (size == 0) {
             head = newNode;
             tail = newNode;
@@ -63,7 +63,7 @@ public class MyLinkedList<E> implements MyList<E> {
             return;
         }
 
-        Node oldNode = getNode(index);
+        Node<E> oldNode = getNode(index);
         if (oldNode == head) {
             head = newNode;
         } else {
@@ -86,7 +86,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public E get(int index) {
-        Node node = getNode(index);
+        Node<E> node = getNode(index);
         return node.value;
     }
 
@@ -98,7 +98,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public E remove(int index) {
-        Node node = getNode(index);
+        Node<E> node = getNode(index);
 
         if (node == head) {
             head = node.next;
@@ -136,7 +136,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void sort(Comparator<E> comparator) {
-        Node node = head;
+        Node<E> node = head;
         for (int i = 0; i < size - 1; i++) {
             for (int j = 0; j < size - 1 - i; j++) {
                 if (comparator.compare(node.value, node.next.value) > 0) {
@@ -155,10 +155,10 @@ public class MyLinkedList<E> implements MyList<E> {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("[");
-        Node node = head;
+        Node<E> node = head;
         for (int i = 0; i < size; i++) {
             if (i > 0) {
-                s.append(",");
+                s.append(", ");
             }
             s.append(node.value);
             node = node.next;
@@ -167,12 +167,12 @@ public class MyLinkedList<E> implements MyList<E> {
         return s.toString();
     }
 
-    private Node getNode(int index) {
+    private Node<E> getNode(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
 
-        Node node;
+        Node<E> node;
         if (index < size / 2) {
             node = head;
             for (int i = 0; i < index; i++) {
@@ -187,7 +187,7 @@ public class MyLinkedList<E> implements MyList<E> {
         return node;
     }
 
-    private void swapNodes(Node n1, Node n2) {
+    private void swapNodes(Node<E> n1, Node<E> n2) {
         if (n1 == head) {
             head = n2;
         } else {
